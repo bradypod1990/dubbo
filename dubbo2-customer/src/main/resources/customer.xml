@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans        http://www.springframework.org/schema/beans/spring-beans.xsd        http://code.alibabatech.com/schema/dubbo        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+ 
+    <!-- 提供方应用信息，用于计算依赖关系-->
+    <dubbo:application name="hello-world-app2"  /> 
+ 
+    <!-- 使用multicast广播注册中心暴露服务地址 -->
+    <dubbo:registry address="redis://127.0.0.1:6379" /> 
+  <!--  --> <dubbo:protocol name="dubbo" port="20880" default="true"/>
+    
+    <dubbo:protocol name="hessian" port="8082" contextpath="dubbo" server="jetty"/>  
+    <!-- 和本地bean一样实现服务 -->
+    <dubbo:reference id="testService" interface="com.feng.dubbo.service.TestService"/>
+    <dubbo:reference id="fileUploadService" interface="com.feng.dubbo.service.FileUploadService" url="hessian://127.0.0.1:8082/dubbo/upload" protocol="hessian"/>
+ 
+</beans>
